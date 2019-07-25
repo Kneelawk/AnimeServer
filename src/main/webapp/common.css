@@ -1,0 +1,23 @@
+body {
+  background-color: rgb(40, 40, 40);
+  color: rgb(200, 200, 200);
+  font-family: monospace;
+}
+
+div {
+  margin: 2px;
+  border-radius: 2px;
+}
+
+code {
+  background-color: rgb(60, 60, 60);
+  color: rgb(222, 222, 222);
+  margin: 2px;
+  border-radius: 2px;
+}
+
+a,a:visited {
+  color: #3d7e9a;
+  margin: 2px;
+  border-radius: 2px;
+}

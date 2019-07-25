@@ -1,0 +1,22 @@
+plugins {
+    id 'war'
+    id 'org.gretty' version '2.3.0'
+}
+
+sourceCompatibility = 12
+
+group = 'com.kneelawk'
+version = '0.0.1'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    providedCompile 'javax.servlet:javax.servlet-api:4.0.1'
+    implementation 'com.j2html:j2html:1.4.0'
+}
+
+gretty {
+    servletContainer = 'tomcat9'
+}
