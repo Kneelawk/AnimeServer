@@ -39,6 +39,10 @@ li.menuitem {
   float: left;
 }
 
+li.menuitem.login {
+  float: right;
+}
+
 a.menulink {
   display: block;
   padding: 8px;
