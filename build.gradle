@@ -1,6 +1,9 @@
 plugins {
+    id 'java'
     id 'war'
-    id 'org.gretty' version '2.3.0'
+    id 'com.gradle.build-scan' version '2.3'
+    id 'org.springframework.boot' version '2.1.6.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 }
 
 sourceCompatibility = 12
@@ -13,10 +16,9 @@ repositories {
 }
 
 dependencies {
-    providedCompile 'javax.servlet:javax.servlet-api:4.0.1'
-    implementation 'com.j2html:j2html:1.4.0'
-}
+    implementation 'org.springframework.boot:spring-boot-dependencies:2.1.6.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 
-gretty {
-    servletContainer = 'tomcat9'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
