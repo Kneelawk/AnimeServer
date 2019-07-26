@@ -1,3 +1,4 @@
+/* Page rendering details */
 body {
   background-color: rgb(40, 40, 40);
   color: rgb(200, 200, 200);
@@ -12,8 +13,9 @@ body {
   padding: 15px;
 }
 
-#title {
-  text-align: center;
+/* Common elements */
+a,a:visited {
+  color: #3d7e9a;
 }
 
 code {
@@ -23,8 +25,32 @@ code {
   border-radius: 2px;
 }
 
-a,a:visited {
-  color: #3d7e9a;
-  margin: 2px;
-  border-radius: 2px;
+/* Menu bar */
+ul.menubar {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  background-color: rgb(80, 80, 80);
+  overflow: hidden;
+}
+
+li.menuitem {
+  display: inline-block;
+  float: left;
+}
+
+a.menulink {
+  display: block;
+  padding: 8px;
+  background-color: rgb(80, 80, 80);
+  text-decoration: none;
+}
+
+a.menulink:hover {
+  background-color: rgb(70, 70, 70);
+}
+
+/* Specific elements */
+#title {
+  text-align: center;
 }
