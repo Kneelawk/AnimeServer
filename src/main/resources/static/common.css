@@ -16,6 +16,7 @@ body {
 /* Common elements */
 a,a:visited {
   color: #3d7e9a;
+  text-decoration: none;
 }
 
 code {
@@ -30,6 +31,15 @@ pre {
   color: rgb(222, 222, 222);
   margin: 2px;
   border-radius: 2px;
+  white-space: pre-wrap;       /* Since CSS 2.1 */
+  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;      /* Opera 4-6 */
+  white-space: -o-pre-wrap;    /* Opera 7 */
+  word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+
+video {
+  width: 100%;
 }
 
 /* Menu bar */
@@ -54,7 +64,6 @@ a.menulink {
   display: block;
   padding: 8px;
   background-color: rgb(80, 80, 80);
-  text-decoration: none;
 }
 
 a.menulink:hover {
@@ -64,4 +73,22 @@ a.menulink:hover {
 /* Specific elements */
 #title {
   text-align: center;
+}
+
+ul.directory {
+  list-style-type: none;
+}
+
+.media-container {
+  margin-top: 15px;
+}
+
+a#back-button {
+  display: block;
+  padding: 8px;
+  background-color: rgb(80, 80, 80);
+}
+
+a#back-button:hover {
+  background-color: rgb(70, 70, 70);
 }

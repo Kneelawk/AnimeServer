@@ -1,6 +1,9 @@
 package com.kneelawk.animeservlet.fileserver;
 
 import com.google.common.hash.Hashing;
+import com.kneelawk.animeservlet.NotFoundException;
+import com.kneelawk.animeservlet.filter.FileVisibilityFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.FileSystemResource;
@@ -16,13 +19,13 @@ import org.springframework.web.util.UriUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Instant;
 import java.util.Date;
 import java.util.Optional;
-import java.util.regex.Pattern;
 
 /**
  * Created by Kneelawk on 7/26/19.
@@ -30,20 +33,36 @@ import java.util.regex.Pattern;
 @PropertySource("classpath:animeserver.properties")
 @RestController
 public class FileServerController {
-    @Value("${fileserver.anime.path}")
+    private static final URI FILE_SERVER_IDENTIFIER = URI.create("files/");
+
+    @Value("${animeserver.filesystem.path}")
     private Path BASE_PATH;
 
-    @Value("${fileserver.anime.blacklist}")
-    private Pattern FILE_BLACKLIST;
+    @Autowired
+    private FileVisibilityFilter filter;
 
     @GetMapping("/files/**")
     public ResponseEntity<Resource> fileServerGet(HttpServletRequest request, @RequestHeader(HttpHeaders.IF_NONE_MATCH)
             Optional<String> ifNoneMatch, @RequestHeader(HttpHeaders.IF_MODIFIED_SINCE) Optional<Date> ifModifiedSince)
             throws IOException {
-        String path = request.getRequestURI().replaceFirst("/files/", "");
+        String contextString = request.getContextPath();
+        if (!contextString.endsWith("/")) {
+            contextString = contextString + "/";
+        }
+        URI context = URI.create(contextString);
+        URI fileServerBase = context.resolve(FILE_SERVER_IDENTIFIER);
+
+        URI requestUri = URI.create(request.getRequestURI());
+
+        URI path;
+        if (requestUri.equals(context.resolve("files"))) {
+            path = URI.create("");
+        } else {
+            path = fileServerBase.relativize(requestUri);
+        }
 
         // decode the path
-        String decodedPath = UriUtils.decode(path, StandardCharsets.UTF_8);
+        String decodedPath = UriUtils.decode(path.toString(), StandardCharsets.UTF_8);
 
         // remove leading slashes
         if (decodedPath.startsWith("/")) {
@@ -55,22 +74,22 @@ public class FileServerController {
 
         // check if the path exists
         if (!Files.exists(fullPath)) {
-            throw new FileServerNotFoundException(decodedPath + " does not exist");
+            throw new NotFoundException(decodedPath + " does not exist");
         }
 
         // make sure it is within the legal area
         if (!fullPath.startsWith(BASE_PATH)) {
-            throw new FileServerNotFoundException(decodedPath + " does not exist");
+            throw new NotFoundException(decodedPath + " does not exist");
         }
 
         // make sure it really is a file
         if (!Files.isRegularFile(fullPath)) {
-            throw new FileServerNotFoundException(decodedPath + " does not exist");
+            throw new NotFoundException(decodedPath + " does not exist");
         }
 
         // ignore files on the blacklist
-        if (FILE_BLACKLIST.matcher(fullPath.toString()).matches()) {
-            throw new FileServerNotFoundException(decodedPath + " does not exist");
+        if (!filter.accept(fullPath)) {
+            throw new NotFoundException(decodedPath + " does not exist");
         }
 
         // calculate file details

@@ -1,0 +1,23 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title th:text="${file_name}">File</title>
+  <link rel="stylesheet" type="text/css" href="../static/common.css" th:href="@{/common.css}">
+</head>
+
+<body>
+  <div class="content">
+    <div th:insert="~{menu-bar :: menubar}"></div>
+    <div th:if="${has_parent}">
+      <a id="back-button" href="#" th:href="${parent_url}">Back</a>
+    </div>
+    <div>
+      <h1 id="title" th:text="${file_name}">File</h1>
+      Path:
+      <pre th:text="${file_path}">/file/path</pre>
+    </div>
+  </div>
+</body>
+
+</html>
