@@ -6,7 +6,7 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 }
 
-def development = true
+def development = Boolean.parseBoolean(System.getProperty("com.kneelawk.animeservlet.development", "false"))
 
 sourceCompatibility = 12
 
