@@ -22,6 +22,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
+    implementation 'com.j2html:j2html:1.4.0'
+    implementation 'com.google.guava:guava:27.1-jre'
+
     if (development) {
         implementation 'org.springframework.boot:spring-boot-devtools'
     }
@@ -30,3 +33,4 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
+

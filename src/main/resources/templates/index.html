@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <title>This is the index.html</title>
@@ -8,15 +8,7 @@
 
 <body>
   <div class="content">
-    <div>
-      <ul class="menubar">
-        <li class="menuitem"><a class="menulink" href="#">Home</a></li>
-        <li class="menuitem"><a class="menulink" href="#">Browse</a></li>
-        <li class="menuitem"><a class="menulink" href="#">Upload</a></li>
-        <li class="menuitem"><a class="menulink" href="#">Manage</a></li>
-        <li class="menuitem login"><a class="menulink" href="#">Login</a></li>
-      </ul>
-    </div>
+    <div th:insert="~{menu-bar :: menubar}"></div>
     <div>
       <h1 id="title">This is the index.html file</h1>
       <p>

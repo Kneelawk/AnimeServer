@@ -1,0 +1,19 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title th:text="|${error}: ${status}|">Error Page</title>
+  <link rel="stylesheet" type="text/css" href="../static/common.css" th:href="@{/common.css}">
+</head>
+
+<body>
+  <div class="content">
+    <div th:insert="~{menu-bar :: menubar}"></div>
+    <h1>The server experienced an error</h1>
+    <div th:text="|Status code: ${status}|">Status Code: ?</div>
+    <div th:text="|Error: ${error}|">Error: ?</div>
+    <div th:text="|Message: ${message}">Message: ?</div>
+  </div>
+</body>
+
+</html>
