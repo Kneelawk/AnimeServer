@@ -11,7 +11,7 @@ def development = Boolean.parseBoolean(System.getProperty("com.kneelawk.animeser
 sourceCompatibility = 12
 
 group = 'com.kneelawk'
-version = '0.0.1'
+version = '0.0.3'
 
 repositories {
     jcenter()
@@ -24,6 +24,7 @@ dependencies {
 
     implementation 'com.j2html:j2html:1.4.0'
     implementation 'com.google.guava:guava:27.1-jre'
+    implementation 'org.apache.commons:commons-lang3:3.9'
 
     if (development) {
         implementation 'org.springframework.boot:spring-boot-devtools'
