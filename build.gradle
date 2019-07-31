@@ -11,7 +11,7 @@ def development = Boolean.parseBoolean(System.getProperty("com.kneelawk.animeser
 sourceCompatibility = 12
 
 group = 'com.kneelawk'
-version = '0.0.3'
+version = '0.0.4'
 
 repositories {
     jcenter()

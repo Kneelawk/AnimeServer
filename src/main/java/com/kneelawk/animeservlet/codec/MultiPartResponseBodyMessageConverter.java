@@ -60,7 +60,7 @@ public class MultiPartResponseBodyMessageConverter extends AbstractHttpMessageCo
             long len = region.getCount();
             long start = region.getPosition();
             long end = start + len - 1;
-            headers.set("Content-Range", start + "-" + end + "/" + fileSize);
+            headers.set("Content-Range", "bytes " + start + "-" + end + "/" + fileSize);
             headers.setContentLength(len);
 
             writeResourceRegion(region, outputMessage.getBody());
@@ -77,7 +77,7 @@ public class MultiPartResponseBodyMessageConverter extends AbstractHttpMessageCo
                 long end = start + len - 1;
                 StringBuilder header = new StringBuilder();
                 header.append("Content-Type: ").append(fileType.toString()).append("\r\n");
-                header.append("Content-Range: ").append(start).append('-').append(end).append('/').append(fileSize)
+                header.append("Content-Range: bytes ").append(start).append('-').append(end).append('/').append(fileSize)
                         .append("\r\n");
                 // don't forget the 2nd carriage return
                 header.append("\r\n");
