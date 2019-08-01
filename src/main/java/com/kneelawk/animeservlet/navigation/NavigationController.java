@@ -6,13 +6,12 @@ import com.kneelawk.animeservlet.filter.FileVisibilityFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.util.UriUtils;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
@@ -27,8 +26,8 @@ import java.util.stream.Collectors;
 @PropertySource("classpath:application.properties")
 @Controller
 public class NavigationController {
-    private static final URI FILE_SERVER_IDENTIFIER = URI.create("files/");
-    private static final URI TREE_SERVER_IDENTIFIER = URI.create("tree/");
+    private static final URI FILE_SERVER_IDENTIFIER = URI.create("/files/");
+    private static final URI TREE_SERVER_IDENTIFIER = URI.create("/tree/");
 
     @Value("${animeserver.filesystem.path}")
     private Path BASE_PATH;
@@ -37,25 +36,17 @@ public class NavigationController {
     private FileVisibilityFilter filter;
 
     @GetMapping("/tree/**")
-    public String navigator(HttpServletRequest request, HttpServletResponse response, Model model) throws IOException {
-        String contextString = request.getContextPath();
-        if (!contextString.endsWith("/")) {
-            contextString = contextString + "/";
-        }
-        URI context = URI.create(contextString);
-        URI fileServerBase = context.resolve(FILE_SERVER_IDENTIFIER);
-        URI treeServerBase = context.resolve(TREE_SERVER_IDENTIFIER);
-
-        URI requestUri = URI.create(request.getRequestURI());
+    public String navigator(ServerHttpRequest request, Model model) throws IOException {
+        URI requestUri = URI.create(request.getPath().pathWithinApplication().value());
 
         URI path;
-        if (requestUri.equals(context.resolve("tree"))) {
+        if (requestUri.equals(URI.create("/tree"))) {
             path = URI.create("");
         } else {
-            path = treeServerBase.relativize(requestUri);
+            path = TREE_SERVER_IDENTIFIER.relativize(requestUri);
         }
 
-        URI fullPath = treeServerBase.resolve(path);
+        URI fullPath = TREE_SERVER_IDENTIFIER.resolve(path);
 
         // decode the path
         String decodedPath = UriUtils.decode(path.toString(), StandardCharsets.UTF_8);
@@ -93,7 +84,7 @@ public class NavigationController {
 
         if (mimeType != null && mimeType.startsWith("video")) {
             URI parentUrl = fullPath.resolve(".");
-            URI fileUrl = fileServerBase.resolve(path);
+            URI fileUrl = FILE_SERVER_IDENTIFIER.resolve(path);
 
             model.addAttribute("file_name", systemPath.getFileName());
             model.addAttribute("file_path", "/" + decodedPath);
@@ -104,8 +95,7 @@ public class NavigationController {
             return "media-file";
         } else if (Files.isDirectory(systemPath)) {
             if (!requestUri.toString().endsWith("/")) {
-                response.sendRedirect(requestUri.toString() + "/");
-                return null;
+                return "redirect:" + requestUri.toString() + "/";
             }
 
             URI parentUrl = fullPath.resolve("..");
@@ -117,7 +107,7 @@ public class NavigationController {
                     throw new RuntimeException(e);
                 }
             }).map(p -> new DirectoryChild(
-                    treeServerBase.resolve(BASE_PATH.toUri().relativize(p.toUri())).toString(),
+                    TREE_SERVER_IDENTIFIER.resolve(BASE_PATH.toUri().relativize(p.toUri())).toString(),
                     p.getFileName().toString())).collect(Collectors.toList());
 
             model.addAttribute("directory_name", systemPath.getFileName());

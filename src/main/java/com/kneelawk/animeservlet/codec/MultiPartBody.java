@@ -14,15 +14,15 @@ import java.util.Objects;
 /**
  * Created by Kneelawk on 7/29/19.
  */
-public class MultiPartResponseBody {
+public class MultiPartBody {
     public static final MediaType MULTIPART_BYTERANGES = MediaType.parseMediaType("multipart/byteranges");
 
     private final List<ResourceRegion> parts;
     private final long contentLength;
     private final MediaType contentType;
 
-    private MultiPartResponseBody(List<ResourceRegion> parts, long contentLength,
-                                  MediaType contentType) {
+    private MultiPartBody(List<ResourceRegion> parts, long contentLength,
+                          MediaType contentType) {
         this.parts = parts;
         this.contentLength = contentLength;
         this.contentType = contentType;
@@ -44,7 +44,7 @@ public class MultiPartResponseBody {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MultiPartResponseBody body = (MultiPartResponseBody) o;
+        MultiPartBody body = (MultiPartBody) o;
         return contentLength == body.contentLength &&
                 parts.equals(body.parts) &&
                 contentType.equals(body.contentType);
@@ -64,12 +64,12 @@ public class MultiPartResponseBody {
                 .toString();
     }
 
-    public static MultiPartResponseBody create(Iterable<ResourceRegion>
-                                                       parts, long contentLength,
-                                               MediaType contentType) {
+    public static MultiPartBody create(Iterable<ResourceRegion>
+                                               parts, long contentLength,
+                                       MediaType contentType) {
         if (contentType == null)
             throw new NullPointerException("ContentType cannot be null");
-        return new MultiPartResponseBody(ImmutableList.copyOf(parts), contentLength,
+        return new MultiPartBody(ImmutableList.copyOf(parts), contentLength,
                 contentType);
     }
 
@@ -89,10 +89,10 @@ public class MultiPartResponseBody {
             this.contentType = contentType;
         }
 
-        public MultiPartResponseBody build() {
+        public MultiPartBody build() {
             if (contentType == null)
                 throw new IllegalStateException("No contentType specified");
-            return new MultiPartResponseBody(ImmutableList.copyOf(parts), contentLength,
+            return new MultiPartBody(ImmutableList.copyOf(parts), contentLength,
                     contentType);
         }
 

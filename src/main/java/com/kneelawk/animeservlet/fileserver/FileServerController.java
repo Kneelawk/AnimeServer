@@ -2,7 +2,7 @@ package com.kneelawk.animeservlet.fileserver;
 
 import com.google.common.hash.Hashing;
 import com.kneelawk.animeservlet.NotFoundException;
-import com.kneelawk.animeservlet.codec.MultiPartResponseBody;
+import com.kneelawk.animeservlet.codec.MultiPartBody;
 import com.kneelawk.animeservlet.filter.FileVisibilityFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,12 +10,12 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.support.ResourceRegion;
 import org.springframework.http.*;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriUtils;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
@@ -27,7 +27,6 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.regex.Pattern;
 
 /**
  * Created by Kneelawk on 7/26/19.
@@ -35,8 +34,7 @@ import java.util.regex.Pattern;
 @PropertySource("classpath:application.properties")
 @RestController
 public class FileServerController {
-    private static final URI FILE_SERVER_IDENTIFIER = URI.create("files/");
-    private static final Pattern RANGE_RANGES = Pattern.compile("([0-9]*)-([0-9]*)");
+    private static final URI FILE_SERVER_IDENTIFIER = URI.create("/files/");
 
     @Value("${animeserver.filesystem.path}")
     private Path BASE_PATH;
@@ -45,25 +43,18 @@ public class FileServerController {
     private FileVisibilityFilter filter;
 
     @GetMapping("/files/**")
-    public ResponseEntity<Object> fileServerGet(HttpServletRequest request, @RequestHeader(HttpHeaders.IF_NONE_MATCH)
+    public ResponseEntity<Object> fileServerGet(ServerHttpRequest request, @RequestHeader(HttpHeaders.IF_NONE_MATCH)
             Optional<String> ifNoneMatch, @RequestHeader(HttpHeaders.IF_MODIFIED_SINCE) Optional<Date> ifModifiedSince,
                                                 @RequestHeader(HttpHeaders.IF_RANGE) Optional<String> ifRange,
                                                 @RequestHeader(HttpHeaders.RANGE) Optional<String> rangeHeader)
             throws IOException {
-        String contextString = request.getContextPath();
-        if (!contextString.endsWith("/")) {
-            contextString = contextString + "/";
-        }
-        URI context = URI.create(contextString);
-        URI fileServerBase = context.resolve(FILE_SERVER_IDENTIFIER);
-
-        URI requestUri = URI.create(request.getRequestURI());
+        URI requestUri = URI.create(request.getPath().pathWithinApplication().value());
 
         URI path;
-        if (requestUri.equals(context.resolve("files"))) {
+        if (requestUri.equals(URI.create("/files"))) {
             path = URI.create("");
         } else {
-            path = fileServerBase.relativize(requestUri);
+            path = FILE_SERVER_IDENTIFIER.relativize(requestUri);
         }
 
         // decode the path
@@ -120,7 +111,10 @@ public class FileServerController {
             }
         }
 
+        // send only part of the file if the server requests it
         if (rangeHeader.isPresent()) {
+            // don't send the part of the file if the client's version is out-of-date
+            // because the client would have been expecting an older version
             if (ifRange.isPresent()) {
                 try {
                     Instant rangeLastModified = DateFormat.getDateTimeInstance().parse(ifRange.get()).toInstant();
@@ -159,7 +153,7 @@ public class FileServerController {
 
     private ResponseEntity<Object> rangeResponse(Path fullPath, String fileETag, Instant lastModified,
                                                  long contentLength, MediaType contentType, List<HttpRange> ranges) {
-        MultiPartResponseBody.Builder bodyBuilder = new MultiPartResponseBody.Builder();
+        MultiPartBody.Builder bodyBuilder = new MultiPartBody.Builder();
         for (HttpRange range : ranges) {
             ResourceRegion resourceRegion = range.toResourceRegion(new FileSystemResource(fullPath));
             bodyBuilder.addPart(resourceRegion);
@@ -167,7 +161,7 @@ public class FileServerController {
         bodyBuilder.setContentLength(contentLength);
         bodyBuilder.setContentType(contentType);
         return setupResponse(HttpStatus.PARTIAL_CONTENT, fileETag, lastModified, contentLength,
-                MultiPartResponseBody.MULTIPART_BYTERANGES).body(bodyBuilder.build());
+                MultiPartBody.MULTIPART_BYTERANGES).body(bodyBuilder.build());
     }
 
     private boolean isSane(List<HttpRange> ranges, long contentLength) {

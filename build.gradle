@@ -1,6 +1,5 @@
 plugins {
     id 'java'
-    id 'war'
     id 'com.gradle.build-scan' version '2.3'
     id 'org.springframework.boot' version '2.1.6.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
@@ -18,8 +17,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-dependencies:2.1.6.RELEASE'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
     implementation 'com.j2html:j2html:1.4.0'
@@ -29,8 +27,6 @@ dependencies {
     if (development) {
         implementation 'org.springframework.boot:spring-boot-devtools'
     }
-
-    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
