@@ -32,7 +32,7 @@ import java.util.regex.Pattern;
 /**
  * Created by Kneelawk on 7/26/19.
  */
-@PropertySource("classpath:animeserver.properties")
+@PropertySource("classpath:application.properties")
 @RestController
 public class FileServerController {
     private static final URI FILE_SERVER_IDENTIFIER = URI.create("files/");

@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
  * Created by Kneelawk on 7/27/19.
  */
 @Configuration
-@PropertySource("classpath:animeserver.properties")
+@PropertySource("classpath:application.properties")
 public class FilterConfiguration {
     @Value("${animeserver.filter.type}")
     private FilterType filterType;

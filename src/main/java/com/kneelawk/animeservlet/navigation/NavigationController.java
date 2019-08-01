@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 /**
  * Created by Kneelawk on 7/27/19.
  */
-@PropertySource("classpath:animeserver.properties")
+@PropertySource("classpath:application.properties")
 @Controller
 public class NavigationController {
     private static final URI FILE_SERVER_IDENTIFIER = URI.create("files/");
