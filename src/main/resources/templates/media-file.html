@@ -4,6 +4,9 @@
 <head>
   <title th:text="${file_name}">Media File</title>
   <link rel="stylesheet" type="text/css" href="../static/common.css" th:href="@{/common.css}">
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+          integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script src="../static/player.js" th:src="@{/player.js}"></script>
 </head>
 
 <body>
@@ -17,7 +20,7 @@
       Path:
       <pre th:text="${file_path}">/file/path</pre>
       <div class="media-container">
-        <video controls="" autoplay="" th:src="${file_href}"></video>
+        <video id="player" controls="" autoplay="" th:src="${file_href}"></video>
       </div>
     </div>
   </div>
