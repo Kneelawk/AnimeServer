@@ -1,6 +1,5 @@
 plugins {
     id 'java'
-    id 'com.gradle.build-scan' version '2.3'
     id 'org.springframework.boot' version '2.1.6.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 }
@@ -31,3 +30,8 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
+processResources {
+    from("keystore") {
+        into("keystore")
+    }
+}
