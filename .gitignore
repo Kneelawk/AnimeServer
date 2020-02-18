@@ -3,6 +3,9 @@
 /build/
 /out/
 
+/keystore/*
+!/keystore/README.md
+
 /*.ipr
 
 *.swp
