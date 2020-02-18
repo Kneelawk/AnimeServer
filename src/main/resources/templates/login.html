@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link rel="stylesheet" type="text/css" href="../static/common.css" th:href="@{/common.css}">
+</head>
+<body>
+  <div class="content">
+    <div th:insert="~{menu-bar :: menubar}"></div>
+    <div>
+      <h1 id="title">Login</h1>
+      <form th:action="@{/login/}" method="post">
+        <div class="login-form">
+          <div>
+            <input class="text-input login-input" type="text" name="username" id="username" placeholder="Username">
+          </div>
+          <div>
+            <input class="text-input login-input" type="password" name="password" id="password" placeholder="Password">
+          </div>
+          <div>
+            <input class="button" type="submit">
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

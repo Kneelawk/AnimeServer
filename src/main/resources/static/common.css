@@ -1,12 +1,12 @@
 /* Page rendering details */
 body {
-  background-color: rgb(40, 40, 40);
-  color: rgb(200, 200, 200);
+  background-color: #282828;
+  color: #c8c8c8;
   font-family: monospace;
 }
 
 .content {
-  background-color: rgb(60, 60, 60);
+  background-color: #3c3c3c;
   max-width: 960px;
   margin-left: auto;
   margin-right: auto;
@@ -20,15 +20,15 @@ a,a:visited {
 }
 
 code {
-  background-color: rgb(80, 80, 80);
-  color: rgb(222, 222, 222);
+  background-color: #505050;
+  color: #dedede;
   margin: 2px;
   border-radius: 2px;
 }
 
 pre {
-  background-color: rgb(80, 80, 80);
-  color: rgb(222, 222, 222);
+  background-color: #505050;
+  color: #dedede;
   margin: 2px;
   border-radius: 2px;
   white-space: pre-wrap;       /* Since CSS 2.1 */
@@ -42,32 +42,107 @@ video {
   width: 100%;
 }
 
+table {
+  width: 100%;
+}
+
+svg {
+  display: block;
+}
+
+.text-input {
+  background-color: #505050;
+  box-sizing: border-box;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 2px solid #757575;
+  color: #c8c8c8;
+  font-family: monospace;
+  outline: none;
+  padding: 2px;
+  width: 100%;
+}
+
+.text-input:focus {
+  background-color: #464646;
+}
+
+.button {
+  background-color: #505050;
+  border: none;
+  box-sizing: border-box;
+  color: #c8c8c8;
+  display: block;
+  font-family: monospace;
+  height: 100%;
+  outline: none;
+  padding: 8px;
+  width: 100%;
+}
+
+.button:hover {
+  background-color: #464646;
+}
+
 /* Menu bar */
 ul.menubar {
+  background-color: #505050;
+  display: flex;
   list-style-type: none;
   margin: 0;
   padding: 0;
-  background-color: rgb(80, 80, 80);
-  overflow: hidden;
 }
 
-li.menuitem {
-  display: inline-block;
-  float: left;
+li.menuitem.search {
+  flex: 1;
 }
 
-li.menuitem.login {
-  float: right;
+.search-input {
+  background-color: #555555;
+  padding: 8px;
+  height: 100%;
 }
 
 a.menulink {
+  background-color: #505050;
+  box-sizing: border-box;
   display: block;
+  height: 100%;
   padding: 8px;
-  background-color: rgb(80, 80, 80);
 }
 
 a.menulink:hover {
-  background-color: rgb(70, 70, 70);
+  background-color: #464646;
+}
+
+a.search-menulink {
+  background-color: #555555;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 2px solid #757575;
+  box-sizing: border-box;
+  display: block;
+  height: 100%;
+  padding: 8px;
+}
+
+a.search-menulink:hover {
+  background-color: #464646;
+}
+
+/* Login form elements */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 360px;
+}
+
+.login-input {
+  padding: 8px;
 }
 
 /* Specific elements */
@@ -86,9 +161,9 @@ ul.directory {
 a#back-button {
   display: block;
   padding: 8px;
-  background-color: rgb(80, 80, 80);
+  background-color: #505050;
 }
 
 a#back-button:hover {
-  background-color: rgb(70, 70, 70);
+  background-color: #464646;
 }
