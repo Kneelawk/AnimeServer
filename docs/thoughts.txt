@@ -1,0 +1,27 @@
+Things I want:
+Users with the ability to upload files.
+Users can keep how far they are through videos.
+Shows have aliases.
+Search bar.
+
+How should anime be organized?
+I want dubs and subs to be together. (Maybe with the possibility of alternate dubs and subs?)
+I want to be able to keep track of who uploaded which files.
+Maybe something like:
+/<Show Name>/<ISO 639-2 spoken-language>[-<ISO 639-2 subtitle-language>]/<Season, OVA, or other>[ <number>]/Episode <number> - <Episode Name>.mp4
+
+Maybe if multiple files were submitted for the same episode then the episode is a directory instead of a file:
+/<Show Name>/<ISO 639-2 spoken-language>[-<ISO 639-2 subtitle-language>]/<Season, OVA, or other>[ <number>]/Episode <number> - <Episode Name>/<sha-256>.mp4
+
+Each directory may have a single metadata file: metadata.json
+metadata.json contains all information on a directory and, through the "children" node, the directory's children,
+potentially including subdirectories, each potentially containing their own "children" nodes.
+
+When ever metadata is saved to the filesystem, metadata for subdirectories contained in those directories' parent's
+metadata.json is moved to metadata.json files contained in those subdirectories.
+This happens because the metadata for a whole directory is loaded into memory when needed, but when saved, it is
+distributed across the directory's subdirectories as necessary.
+
+If there is a conflict between information in a parent's metadata.json file about a child directory and the information
+in that child directory's metadata.json file when loading metadata, the child directory's metadata.json file overrides
+the data about the subdirectory in the parent's metadata.json file.
