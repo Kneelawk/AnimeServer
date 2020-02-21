@@ -78,6 +78,7 @@ svg {
   height: 100%;
   outline: none;
   padding: 8px;
+  text-align: center;
   width: 100%;
 }
 
@@ -141,8 +142,22 @@ a.search-menulink:hover {
   max-width: 360px;
 }
 
+.login-component {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
 .login-input {
   padding: 8px;
+}
+
+.hidden-label {
+  display: none;
+}
+
+.sign-up {
+  margin: 10px;
+  text-align: center;
 }
 
 /* Specific elements */

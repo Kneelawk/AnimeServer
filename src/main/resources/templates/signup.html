@@ -2,15 +2,15 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Login</title>
+  <title>Sign Up</title>
   <link rel="stylesheet" type="text/css" href="../static/common.css" th:href="@{/common.css}">
 </head>
 <body>
   <div class="content">
     <div th:insert="~{menu-bar :: menubar}"></div>
     <div>
-      <h1 id="title">Login</h1>
-      <form th:action="@{/login/}" method="post">
+      <h1 id="title">Sign Up</h1>
+      <form th:action="@{/signup/}" method="post">
         <div class="login-form">
           <div class="login-component">
             <label for="username" class="hidden-label">Username</label> <input class="text-input login-input"
@@ -23,10 +23,14 @@
                                                                                id="password" placeholder="Password">
           </div>
           <div class="login-component">
-            <input class="button" type="button" value="Log In">
+            <label for="password-retype" class="hidden-label">Password</label> <input class="text-input login-input"
+                                                                                      type="password"
+                                                                                      name="password-retype"
+                                                                                      id="password-retype"
+                                                                                      placeholder="Retype Password">
           </div>
-          <div class="sign-up">
-            Don't have an account? <a href="#" th:href="@{/signup/}">Sign up.</a>
+          <div class="login-component">
+            <input class="button" type="button" value="Sign Up">
           </div>
         </div>
       </form>
