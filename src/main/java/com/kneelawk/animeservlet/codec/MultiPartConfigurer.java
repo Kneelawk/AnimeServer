@@ -16,10 +16,6 @@ public class MultiPartConfigurer {
 
     @Bean
     public CodecCustomizer specialEntityCodecCustomizer() {
-        return configurer -> {
-            System.out.println("Configuring SpecialEntity CodecCustomizer...");
-            System.out.println("Configurer: " + configurer.getClass());
-            configurer.customCodecs().writer(multiPartWriter());
-        };
+        return configurer -> configurer.customCodecs().register(multiPartWriter());
     }
 }
