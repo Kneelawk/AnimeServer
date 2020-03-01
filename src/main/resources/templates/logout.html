@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Logout</title>
+  <link rel="stylesheet" type="text/css" href="../static/common.css" th:href="@{/common.css}">
+</head>
+<body>
+  <div class="content">
+    <div th:insert="~{menu-bar :: menubar}"></div>
+    <div>
+      <h1 id="title">Logout?</h1>
+      <div class="login-form">
+        <div class="form-text">
+          Are you sure you would like to log out?
+        </div>
+        <form th:action="@{/logout}" method="post">
+          <input type="hidden" th:name="${_csrf.getParameterName()}" , th:value="${_csrf.getToken()}"> <input
+                class="button" type="submit" value="Log Out">
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -10,8 +10,8 @@
     <ul class="menubar" th:fragment="menubar">
       <li class="menuitem"><a class="menulink" href="#" th:href="@{/}">Home</a></li>
       <li class="menuitem"><a class="menulink" href="#" th:href="@{/tree/}">Browse</a></li>
-      <li class="menuitem"><a class="menulink" href="#">Upload</a></li>
-      <li class="menuitem"><a class="menulink" href="#">Manage</a></li>
+      <li class="menuitem"><a class="menulink" href="#" th:href="@{/upload}">Upload</a></li>
+      <li class="menuitem"><a class="menulink" href="#" th:href="@{/manage}">Manage</a></li>
       <li class="menuitem search"><input type="text" class="search-input text-input" placeholder="Search"></li>
       <li class="menuitem"><a class="search-menulink" href="#">
         <svg height="16" width="16">
@@ -36,7 +36,10 @@
           Search
         </svg>
       </a></li>
-      <li class="menuitem login"><a class="menulink" href="#" th:href="@{/login/}">Login</a></li>
+      <li class="menuitem" th:unless="${login.isLoggedIn()}"><a class="menulink" href="#" th:href="@{/login}">Login</a>
+      </li>
+      <li class="menuitem" th:if="${login.isLoggedIn()}"><a class="menulink" href="#" th:href="@{/logout}"
+                                                            th:text="${login.getName()}"></a></li>
     </ul>
   </div>
 </body>

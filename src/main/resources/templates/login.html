@@ -10,7 +10,8 @@
     <div th:insert="~{menu-bar :: menubar}"></div>
     <div>
       <h1 id="title">Login</h1>
-      <form th:action="@{/login/}" method="post">
+      <form th:action="@{/login}" method="post">
+        <input type="hidden" th:name="${_csrf.getParameterName()}" , th:value="${_csrf.getToken()}">
         <div class="login-form">
           <div class="login-component">
             <label for="username" class="hidden-label">Username</label> <input class="text-input login-input"
@@ -23,9 +24,9 @@
                                                                                id="password" placeholder="Password">
           </div>
           <div class="login-component">
-            <input class="button" type="button" value="Log In">
+            <input class="button" type="submit" value="Log In">
           </div>
-          <div class="sign-up">
+          <div class="form-text">
             Don't have an account? <a href="#" th:href="@{/signup/}">Sign up.</a>
           </div>
         </div>

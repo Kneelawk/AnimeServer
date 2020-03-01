@@ -12,4 +12,14 @@ public class MiscController {
     public String getIndex() {
         return "index";
     }
+
+    @GetMapping("/upload")
+    public String getUpload() {
+        return "underConstruction";
+    }
+
+    @GetMapping("/manage")
+    public String getManage() {
+        return "underConstruction";
+    }
 }
