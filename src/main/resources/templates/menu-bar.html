@@ -41,6 +41,10 @@
       <li class="menuitem" th:if="${login.isLoggedIn()}"><a class="menulink" href="#" th:href="@{/logout}"
                                                             th:text="${login.getName()}"></a></li>
     </ul>
+    <ul class="menubar" th:fragment="menubar-minimal">
+      <li class="menuitem"><a class="menulink" href="#" th:href="@{/}">Home</a></li>
+      <li class="menuitem"><a class="menulink" href="#" th:href="@{/tree/}">Browse</a></li>
+    </ul>
   </div>
 </body>
 </html>
